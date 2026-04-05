@@ -1,2 +1,5 @@
-# student-study-planner
-A JavaScript Study Planner system built using object‑oriented programming. The repository includes a class diagram PDF that documents the system structure and the relationships between StudyPlanner, Subject, and Task classes.
+# Title
+Study Planner System
+
+## Description:
+This system helps students organize their academic work by managing subjects and the tasks associated with each subject. It allows users to add subjects, create tasks with due dates, and track which tasks are completed or still pending. The system is designed to help students stay organized and improve their study habits.
