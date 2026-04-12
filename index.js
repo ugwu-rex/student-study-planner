@@ -12,7 +12,7 @@ class Subject {
     }
 
     removeTask(taskTitle) {
-       this.tasks = this.tasks.filter(task => task.title !== taskTitle);
+       this.tasks = this.tasks.filter(task => task.getTitle() !== taskTitle);
     }
 
     listTasks(){
@@ -20,41 +20,97 @@ class Subject {
     }
 
     listPendingTask(){
-        return this.tasks.filter(task => task.status === false);
+        return this.tasks.filter(task => task.getStatus() === false);
     }
 
     listCompletedTask(){
-        return this.tasks.filter(task => task.status === true);
+        return this.tasks.filter(task => task.getStatus() === true);
     }
 }
 
 
 class Task {
     static count = 0;
+
+    #title;
+    #dueDate;
+    #status;
+
     constructor(title, dueDate){
-        this.title = title;
-        this.dueDate = dueDate;
-        this.status = false; // false = not done, true = done
+        this.#title = title;
+        this.#dueDate = dueDate;
+        this.#status = false; // false = not done, true = done
         
         Task.count++;
     }
 
+    getTitle(){
+        return this.#title
+    }
+
+    getDueDate() {
+        return this.#dueDate;
+    }
+
+    getStatus() {
+        return this.#status;
+    }
+    
+    setTitle(newTitle) {
+        this.#title = newTitle;
+    }
+
+    setDueDate(newDate) {
+        this.#dueDate = newDate;
+    }
+
+    setStatus(newStatus) {
+        this.#status = newStatus;
+    }
+
+
     markCompleted(){
-        this.status = true;
+        this.#status = true;
     }
 
     updateTitle(newTitle){
-        this.title = newTitle;
+        this.#title = newTitle;
     }
 
     updateDueDate(newDate){
-        this.dueDate = newDate;
+        this.#dueDate = newDate;
     }
 
     static getTotaltasks(){
         return Task.count;
     }
 }
+
+class TimedTask extends Task {
+    #duration;
+
+    constructor(title, dueDate, duration) {
+        super(title, dueDate);   // required: calls parent constructor
+        this.#duration = duration;
+    }
+
+    
+    getDuration() {
+        return this.#duration;
+    }
+
+    
+    setDuration(newDuration) {
+        this.#duration = newDuration;
+    }
+
+    // POLYMORPHISM: override markCompleted()
+    markCompleted() {
+        super.markCompleted();  
+        console.log(`Timed task completed in ${this.#duration} minutes.`);
+    }
+}
+
 
 class StudyPlanner {
     constructor(name){
@@ -111,7 +167,15 @@ math.addTask(task3);
 
 task1.markCompleted();
 
-console.log("N.B: for status = true means done, status = false means not done")
+
+const normalTask = new Task("Read chapter", new Date("2026-05-20"));
+normalTask.markCompleted();  
+
+const timedTask = new TimedTask("Timed quiz", new Date("2026-05-20"), 30);
+timedTask.markCompleted();
+
+
+//console.log("N.B: for status = true means done, status = false means not done")
 console.log() //whitespace for easy readability
 console.log(CSC.listTasks());
 console.log()
